@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oscar J. Fonte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0d0d14;
+      --parchment: #f5f3ee;
+      --gold:      #c09a52;
+      --gold-lt:   #d4b87a;
+      --slate:     #2b2d3a;
+      --mist:      #8a8fa8;
+      --white:     #ffffff;
+      --card-bg:   #13141e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--ink);
+      color: var(--parchment);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('copita.png');
+      background-size: cover;
+      background-position: center 40%;
+      filter: brightness(0.45) saturate(1.2);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(13,13,20,0.3) 50%,
+        rgba(13,13,20,0.95) 85%,
+        var(--ink) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 8vw 7vh;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+
+    .hero-slogan {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--mist);
+      max-width: 520px;
+      border-left: 2px solid var(--gold);
+      padding-left: 1.2rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      transition: background 0.25s, transform 0.2s;
+    }
+
+    .hero-cta:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 8vw;
+      background: rgba(13,13,20,0.0);
+      backdrop-filter: blur(0px);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(13,13,20,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(192,154,82,0.18);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      object-fit: cover;
+    }
+
+    .nav-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--mist);
+      text-decoration: none;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── SECTIONS COMMON ── */
+    section {
+      padding: 7rem 8vw;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── ABOUT ── */
+    #sobre {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-text p {
+      color: var(--mist);
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p strong { color: var(--parchment); font-weight: 500; }
+
+    .about-bridge {
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+    }
+
+    .about-bridge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.8) brightness(0.85);
+      transition: filter 0.5s;
+    }
+
+    .about-bridge:hover img { filter: saturate(1.1) brightness(0.95); }
+
+    .about-bridge::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(192,154,82,0.25);
+      pointer-events: none;
+    }
+
+    /* ── SKILLS ── */
+    #habilidades {
+      background: var(--card-bg);
+      border-top: 1px solid rgba(192,154,82,0.12);
+      border-bottom: 1px solid rgba(192,154,82,0.12);
+    }
+
+    #habilidades .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5px;
+      background: rgba(192,154,82,0.1);
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      padding: 2.2rem 2rem;
+      transition: background 0.25s;
+      position: relative;
+    }
+
+    .skill-card:hover { background: #1a1b28; }
+
+    .skill-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .skill-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-card p {
+      font-size: 0.84rem;
+      color: var(--mist);
+      line-height: 1.7;
+    }
+
+    .skill-bar-wrap {
+      margin-top: 1.2rem;
+      height: 2px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--gold), var(--gold-lt));
+      transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experiencia { max-width: 1200px; margin: 0 auto; }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.5rem; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 1.8rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.55rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(192,154,82,0.2);
+    }
+
+    .timeline-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-company {
+      font-size: 0.82rem;
+      color: var(--mist);
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--mist);
+      line-height: 1.75;
+    }
+
+    /* ── EDUCATION ── */
+    #educacion {
+      background: var(--card-bg);
+      border-top: 1px solid rgba(192,154,82,0.12);
+    }
+
+    #educacion .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .degree-block {
+      border-left: 2px solid var(--gold);
+      padding-left: 1.5rem;
+    }
+
+    .degree-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .degree-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .degree-inst {
+      font-size: 0.85rem;
+      color: var(--mist);
+      margin-bottom: 0.8rem;
+    }
+
+    .degree-desc {
+      font-size: 0.88rem;
+      color: var(--mist);
+      line-height: 1.7;
+    }
+
+    /* ── CONTACT ── */
+    #contacto {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 9rem;
+      padding-bottom: 9rem;
+    }
+
+    .contact-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('copita.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.18) saturate(0.5);
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--parchment);
+      margin-bottom: 3rem;
+      line-height: 1.4;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.9rem 2rem;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all 0.25s;
+      border: 1px solid;
+    }
+
+    .contact-btn.primary {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+
+    .contact-btn.primary:hover {
+      background: var(--gold-lt);
+      border-color: var(--gold-lt);
+      transform: translateY(-2px);
+    }
+
+    .contact-btn.secondary {
+      background: transparent;
+      border-color: rgba(192,154,82,0.45);
+      color: var(--parchment);
+    }
+
+    .contact-btn.secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080810;
+      padding: 2.5rem 8vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(192,154,82,0.12);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.74rem;
+      color: var(--mist);
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── DIVIDER ── */
+    .gold-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 3rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      #sobre {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 4rem 6vw;
+      }
+      #educacion .inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 4rem 6vw;
+      }
+      section { padding: 5rem 6vw; }
+      .nav-links { display: none; }
+    }
+
+    /* scroll animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-logo">
+      <img src="jfblanco.png" alt="Logo Oscar J. Fonte"/>
+      <span class="nav-logo-text">Oscar J. Fonte</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre mí</a></li>
+      <li><a href="#habilidades">Habilidades</a></li>
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#educacion">Formación</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Freelancer · Cibernética & Informática</p>
+      <h1 class="hero-name">Oscar J.<br/><em>Fonte</em></h1>
+      <p class="hero-slogan">Por muy lejos que tú estés,<br/>con un teclado te daré alcance.</p>
+      <a href="#contacto" class="hero-cta">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Trabajemos juntos
+      </a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="sobre">
+    <div class="about-text reveal">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">Soluciones digitales<br/>con precisión técnica</h2>
+      <div class="gold-divider"></div>
+      <p>
+        Soy <strong>Oscar J. Fonte</strong>, licenciado en <strong>Cibernética e Informática</strong> con experiencia en el diseño y desarrollo de sistemas, redes, automatización y soluciones de software a medida.
+      </p>
+      <p>
+        Trabajo de forma remota para clientes en cualquier parte del mundo. La distancia no es un obstáculo — la tecnología es mi herramienta y la precisión mi firma.
+      </p>
+      <p>
+        Mi enfoque combina rigor académico y sensibilidad práctica: entiendo los problemas en profundidad antes de proponer soluciones, y entrego resultados que duran.
+      </p>
+    </div>
+    <div class="about-bridge reveal">
+      <img src="jf.jpg" alt="Brooklyn Bridge — alcanzando horizontes" onerror="this.style.background='#1a1b28'; this.style.minHeight='300px'"/>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="habilidades" style="padding: 7rem 0;">
+    <div class="inner" style="padding: 0 8vw;">
+      <p class="section-label reveal">Habilidades</p>
+      <h2 class="section-title reveal">Lo que llevo en el teclado</h2>
+    </div>
+    <div class="skills-grid reveal">
+
+      <div class="skill-card">
+        <span class="skill-icon">⚙️</span>
+        <h3>Sistemas & Redes</h3>
+        <p>Diseño, administración y auditoría de infraestructuras de red. Configuración de servidores Linux/Windows y arquitecturas distribuidas.</p>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🔒</span>
+        <h3>Ciberseguridad</h3>
+        <p>Análisis de vulnerabilidades, hardening de sistemas, pruebas de penetración y protección de activos digitales críticos.</p>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🤖</span>
+        <h3>Automatización & IA</h3>
+        <p>Scripts de automatización, integración de APIs y aplicaciones de inteligencia artificial para optimización de procesos empresariales.</p>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div id="experiencia" style="max-width:1200px; margin:0 auto;">
+      <p class="section-label reveal">Trayectoria</p>
+      <h2 class="section-title reveal">Experiencia profesional</h2>
+
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <p class="timeline-date">2022 — Presente</p>
+          <h3 class="timeline-role">Consultor Freelance en IT</h3>
+          <p class="timeline-company">Proyectos internacionales · Remoto</p>
+          <p class="timeline-desc">Desarrollo de soluciones tecnológicas a medida para empresas y emprendedores de América Latina, Europa y Norteamérica. Auditorías de seguridad, migraciones a la nube y automatización de flujos de trabajo.</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-date">2020 — 2022</p>
+          <h3 class="timeline-role">Analista de Sistemas</h3>
+          <p class="timeline-company">Sector tecnológico</p>
+          <p class="timeline-desc">Análisis, diseño y mantenimiento de sistemas informáticos empresariales. Coordinación con equipos multidisciplinarios para la implementación de soluciones escalables y seguras.</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-date">2018 — 2020</p>
+          <h3 class="timeline-role">Técnico en Infraestructura de Redes</h3>
+          <p class="timeline-company">Telecomunicaciones</p>
+          <p class="timeline-desc">Instalación, configuración y mantenimiento de infraestructura de red corporativa. Soporte técnico avanzado y gestión de incidencias en entornos críticos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="educacion">
+    <div class="inner">
+      <div class="reveal">
+        <p class="section-label">Formación académica</p>
+        <h2 class="section-title">Fundamentos sólidos,<br/>visión actualizada</h2>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem;">
+          <div class="degree-block">
+            <p class="degree-label">Licenciatura</p>
+            <h3 class="degree-title">Cibernética e Informática</h3>
+            <p class="degree-inst">Universidad · Graduado con honores</p>
+            <p class="degree-desc">Formación integral en teoría de sistemas, inteligencia artificial, redes de computadoras, programación avanzada y gestión de proyectos tecnológicos.</p>
+          </div>
+
+          <div class="degree-block">
+            <p class="degree-label">Certificaciones</p>
+            <h3 class="degree-title">Formación Continua</h3>
+            <p class="degree-inst">Plataformas internacionales</p>
+            <p class="degree-desc">Actualización permanente en ciberseguridad, y nuevas tecnologías. Comprometido con el aprendizaje como herramienta competitiva.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contacto" style="padding:0; position:relative;">
+    <div class="contact-bg"></div>
+    <div class="contact-content" style="padding: 9rem 2rem;">
+      <p class="section-label" style="justify-content:center; display:flex;">Contacto</p>
+      <p class="contact-tagline">
+        "Por muy lejos que tú estés,<br/>con un teclado te daré alcance."
+      </p>
+      <div class="gold-divider" style="margin: 0 auto 2.5rem;"></div>
+      <p style="color: var(--mist); font-size: 0.92rem; margin-bottom: 2.5rem; max-width:480px; margin-left:auto; margin-right:auto;">
+        Cuéntame tu problema. Trabajo con clientes de todo el mundo — la distancia nunca ha sido un problema.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:oscartwice@protonmail.com" class="contact-btn primary">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          oscartwice@protonmail.com
+        </a>
+        <a href="https://www.facebook.com/oscar.j.fonte" target="_blank" rel="noopener" class="contact-btn secondary">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          Facebook
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Oscar J. Fonte · Freelancer en Cibernética e Informática</p>
+    <p>Hecho con precisión · <a href="mailto:oscartwice@protonmail.com">oscartwice@protonmail.com</a></p>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    // Animate skill bars on scroll
+    const bars = document.querySelectorAll('.skill-bar');
+    bars.forEach(b => {
+      const target = b.style.width;
+      b.style.width = '0';
+      const barObs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          b.style.width = target;
+          barObs.unobserve(b);
+        }
+      }, { threshold: 0.3 });
+      barObs.observe(b);
+    });
+  </script>
+</body>
+</html>
